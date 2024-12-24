@@ -1,7 +1,4 @@
-﻿#nullable disable
-
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DAL
 {

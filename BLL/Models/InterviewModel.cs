@@ -9,10 +9,12 @@ namespace BLL.Models
 
         public string Date => Record.Date.ToString("MM/dd/yyyy") ?? string.Empty;
 
-        public string Customer => Record.Customer?.Name ?? "N/A";
+        public string Customer => string.Join("<br>", Record.Customer?.Name + " " + Record.Customer?.Surname);
 
-        public string Agent => Record.Agent?.Name ?? "N/A";
+        public string Agent => string.Join("<br>", Record.Agent?.Name + " " + Record.Agent?.Surname);
 
-        public string Sale => Record.Sale?.Id.ToString() ?? "N/A";
+        public string Sale => Record.Sale?.Status.ToString();
     }
 }
+
+

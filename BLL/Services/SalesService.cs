@@ -25,7 +25,7 @@ namespace BLL.Services
 
         public ServiceBase Delete(int id)
         {
-            var entity = _db.Sales.SingleOrDefault(s => s.Id == id);
+            var entity = _db.Sales.Include(s => s.Interviews).Include(s =>s.Documents).SingleOrDefault(s => s.Id == id);
             if (entity is null)
                 return Error("Sale cannot be found! ");
             _db.Sales.Remove(entity);
@@ -35,17 +35,16 @@ namespace BLL.Services
 
         public IQueryable<SaleModel> Query()
         {
-            return _db.Sales.OrderByDescending(s => s.Id).Select(s => new SaleModel() { Record = s });
+            return _db.Sales.OrderByDescending(s => s.Status).Select(s => new SaleModel() { Record = s });
         }
 
         public ServiceBase Update(Sale record)
         {
             if (_db.Sales.Any(s => s.Id == record.Id))
                 return Error("Sale with the same ID exists!");
-            var entity = _db.Sales.SingleOrDefault(p => p.Id == record.Id);
+            var entity = _db.Sales.SingleOrDefault(s => s.Id == record.Id);
             if (entity is null)
                 return Error("Sale is not found!");
-            _db.Interviews.RemoveRange(entity.Interviews);
             entity.Status = record.Status?.Trim();
             entity.Deposit = record.Deposit;
             entity.Interviews = record.Interviews;

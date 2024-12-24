@@ -44,7 +44,7 @@ namespace MVC.Controllers
             // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
             ViewData["AgentId"] = new SelectList(_agentService.Query().ToList(), "Record.Id", "Name");
             ViewData["CustomerId"] = new SelectList(_customerService.Query().ToList(), "Record.Id", "Name");
-            ViewData["SaleId"] = new SelectList(_saleService.Query().ToList(), "Record.Id", "Name");
+            ViewData["SaleId"] = new SelectList(_saleService.Query().ToList(), "Record.Id", "Status");
             
             /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");

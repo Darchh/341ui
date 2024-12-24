@@ -16,8 +16,8 @@ namespace BLL.Services
 
         public ServiceBase Create(Document record)
         {
-            if (_db.Documents.Any(d => d.Id == record.Id))
-                return Error("Document with the same ID exists!");
+            if (_db.Documents.Any(d => d.TitleDeed.ToLower() == record.TitleDeed.ToLower().Trim()))
+                return Error("Document with the same TitleDeed exists!");
             _db.Documents.Add(record);
             _db.SaveChanges();
             return Success("Document created successfully.");
@@ -35,11 +35,13 @@ namespace BLL.Services
 
         public IQueryable<DocumentModel> Query()
         {
-            return _db.Documents.OrderByDescending(d => d.Id).Select(d => new DocumentModel() { Record = d });
+            return _db.Documents.Include(d => d.Residence).Include(d => d.Sale).OrderByDescending(d => d.Id).Select(d => new DocumentModel() { Record = d });
         }
 
         public ServiceBase Update(Document record)
         {
+            if (_db.Documents.Any(d => d.TitleDeed.ToLower() == record.TitleDeed.ToLower().Trim()))
+                return Error("Document with the same TitleDeed exists!");
             var entity = _db.Documents.SingleOrDefault(d => d.Id == record.Id);
             if (entity is null)
                 return Error("Document is not found!");
