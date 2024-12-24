@@ -48,7 +48,10 @@ namespace BLL.Services
             var entity = _db.Interviews.SingleOrDefault(i => i.Id == record.Id);
             if (entity is null)
                 return Error("Interview is not found!");
-            entity.Date = record.Date;
+            record.Date = record.Date;
+            record.Customer = _db.Customers.Find(record.CustomerId);
+            record.Agent = _db.Agents.Find(record.AgentId);
+            record.Sale = _db.Sales.Find(record.SaleId);
             _db.Interviews.Update(entity);
             _db.SaveChanges();
             return Success("Interview updated successfully.");
