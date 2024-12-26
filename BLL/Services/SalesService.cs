@@ -16,8 +16,8 @@ namespace BLL.Services
 
         public ServiceBase Create(Sale record)
         {
-            if (_db.Sales.Any(s => s.Id == record.Id))
-                return Error("Sale with the same ID exists!");
+            if (_db.Sales.Any(s => s.Status == record.Status))
+                return Error("Sale with the same status exists!");
             _db.Sales.Add(record);
             _db.SaveChanges();
             return Success("Sale created successfully. ");
@@ -44,8 +44,8 @@ namespace BLL.Services
 
         public ServiceBase Update(Sale record)
         {
-            if (_db.Sales.Any(s => s.Id == record.Id))
-                return Error("Sale with the same ID exists!");
+            if (_db.Sales.Any(s => s.Status == record.Status))
+                return Error("Sale with the same status exists!");
             var entity = _db.Sales.SingleOrDefault(s => s.Id == record.Id);
             if (entity is null)
                 return Error("Sale is not found!");

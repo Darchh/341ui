@@ -16,8 +16,8 @@ namespace BLL.Services
 
         public ServiceBase Create(Residence record)
         {
-            if (_db.Residences.Any(r => r.Id == record.Id))
-                return Error("Residence with the same ID exists!");
+            if (_db.Residences.Any(r => r.Street == record.Street))
+                return Error("Residence with the same adress exists!");
             _db.Residences.Add(record);
             _db.SaveChanges();
             return Success("Residence created successfully. ");
@@ -42,8 +42,8 @@ namespace BLL.Services
 
         public ServiceBase Update(Residence record)
         {
-            if (_db.Residences.Any(r => r.Id == record.Id))
-                return Error("Residence with the same ID exists!");
+            if (_db.Residences.Any(r => r.Street == record.Street))
+                return Error("Residence with the same adress exists!");
             var entity = _db.Residences.SingleOrDefault(r => r.Id == record.Id);
             if (entity is null)
                 return Error("Residence is not found!");
