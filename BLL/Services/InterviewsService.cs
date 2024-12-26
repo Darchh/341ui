@@ -28,10 +28,10 @@ namespace BLL.Services
 
         public ServiceBase Delete(int id)
         {
-            var entity = _db.Documents.SingleOrDefault(d => d.Id == id);
+            var entity = _db.Interviews.SingleOrDefault(d => d.Id == id);
             if (entity is null)
                 return Error("Interview cannot be found!");
-            _db.Documents.Remove(entity);
+            _db.Interviews.Remove(entity);
             _db.SaveChanges();
             return Success("Interview deleted successfully.");
         }
