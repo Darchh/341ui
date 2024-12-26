@@ -28,6 +28,10 @@ namespace BLL.Services
             var entity = _db.Sales.Include(s => s.Interviews).Include(s =>s.Documents).SingleOrDefault(s => s.Id == id);
             if (entity is null)
                 return Error("Sale cannot be found! ");
+            if (entity.Documents.Any())
+                return Error("A document file has this info. You cannot delete it. Delete the according Document first! ");
+            if (entity.Interviews.Any())
+                return Error("An interview has this Sale info. You cannot delete it. Delete the according Interview first! ");
             _db.Sales.Remove(entity);
             _db.SaveChanges();
             return Success("Sale deleted successfully. ");

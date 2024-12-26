@@ -13,7 +13,7 @@ namespace BLL.Models
 
         public string Agent => string.Join("<br>", Record.Agent?.Name + " " + Record.Agent?.Surname);
 
-        public string Sale => Record.Sale?.Id.ToString();
+        public string Sale => Record.Sale?.Status.ToString();
     }
 }
 

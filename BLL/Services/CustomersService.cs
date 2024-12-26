@@ -16,7 +16,7 @@ namespace BLL.Services
 
         public ServiceBase Create(Customer record)
         {
-            if (_db.Customers.Any(p => p.Name.ToLower() == record.Name.ToLower().Trim() && p.Surname.ToLower() == record.Surname.ToLower().Trim()))
+            if (_db.Customers.Any(c => c.Name.ToLower() == record.Name.ToLower().Trim() && c.Surname.ToLower() == record.Surname.ToLower().Trim()))
                 return Error("Customer with the same name exists!");
             record.Name = record.Name?.Trim();
             _db.Customers.Add(record);
@@ -26,9 +26,11 @@ namespace BLL.Services
 
         public ServiceBase Delete(int id)
         {
-            var entity = _db.Customers.SingleOrDefault(c => c.Id == id);
+            var entity = _db.Customers.Include(c => c.Interviews).SingleOrDefault(c => c.Id == id);
             if (entity is null)
                 return Error("Customer cannot be found! ");
+            if (entity.Interviews.Any())
+                return Error("An interview has this customer. You cannot delete it. Delete the according Interview first! ");
             _db.Interviews.RemoveRange(entity.Interviews);
             _db.Customers.Remove(entity);
             _db.SaveChanges();

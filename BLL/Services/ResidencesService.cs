@@ -25,9 +25,11 @@ namespace BLL.Services
 
         public ServiceBase Delete(int id)
         {
-            var entity = _db.Residences.SingleOrDefault(r => r.Id == id);
+            var entity = _db.Residences.Include(r => r.Documents).SingleOrDefault(r => r.Id == id);
             if (entity is null)
                 return Error("Residence cannot be found! ");
+            if (entity.Documents.Any())
+                return Error("A document file has this info. You cannot delete it. Delete the according Document first! ");
             _db.Residences.Remove(entity);
             _db.SaveChanges();
             return Success("Residence deleted successfully. ");
